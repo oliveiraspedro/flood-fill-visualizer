@@ -15,6 +15,12 @@ class Grid:
         self.default_color = default_color
         self._cells: list[list[Color]] = self._build_grid()
 
+    def __len__(self):
+        return len(self._cells)
+    
+    def __getitem__(self, index):
+        return self._cells[index]
+
     def _build_grid(self) -> list[list[Color]]:
         """Cria a matriz 2D preenchida com a cor padrão."""
         return [

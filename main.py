@@ -2,6 +2,7 @@ import sys
 import pygame
 
 from floodfill.core.grid import Grid
+from floodfill.core.flood_fill import flood_fill_bfs
 from floodfill.rendering.renderer import Renderer
 
 WINDOW_TITLE = "Flood Fill Visualizer"
@@ -11,9 +12,11 @@ TARGET_FPS = 60
 GRID_ROWS = 20
 GRID_COLS = 20
 CELL_SIZE = 30
+MOUSE_OFFSET_X = 0
+MOUSE_OFFSET_Y = 0
 
-WINDOW_WIDTH = GRID_ROWS * CELL_SIZE
-WINDOW_HEIGHT = GRID_COLS * CELL_SIZE
+WINDOW_WIDTH = GRID_COLS* CELL_SIZE
+WINDOW_HEIGHT = GRID_ROWS * CELL_SIZE
 
 def main() -> None:
     pygame.init()
@@ -31,6 +34,12 @@ def main() -> None:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = pygame.mouse.get_pos()
+                row = (y - MOUSE_OFFSET_Y ) // CELL_SIZE
+                col = (x - MOUSE_OFFSET_X) // CELL_SIZE
+                print(f"Mouse clicked on the cell ({row, col})")
+                flood_fill_bfs(grid, row, col, (200, 50, 50))
         
         screen.fill(BACKGROUND_COLOR)
         renderer.draw_grid(grid)
@@ -40,7 +49,6 @@ def main() -> None:
 
     pygame.quit()
     sys.exit()
-
 
 if __name__ == "__main__":
     main()
