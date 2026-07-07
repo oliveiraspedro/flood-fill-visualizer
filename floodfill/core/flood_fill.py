@@ -32,3 +32,5 @@ def flood_fill_bfs(grid, linha, coluna, cor_nova):
 
             visitados.add((ni, nj))
             fila.append((ni, nj))
+
+        yield grid

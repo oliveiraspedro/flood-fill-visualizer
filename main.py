@@ -28,8 +28,9 @@ def main() -> None:
     
     grid = Grid(rows=GRID_ROWS, cols=GRID_COLS)
     renderer = Renderer(surface=screen, cell_size=CELL_SIZE)
-    
+
     running = True
+    gerador = None
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -39,9 +40,15 @@ def main() -> None:
                 row = (y - MOUSE_OFFSET_Y ) // CELL_SIZE
                 col = (x - MOUSE_OFFSET_X) // CELL_SIZE
                 print(f"Mouse clicked on the cell ({row, col})")
-                flood_fill_bfs(grid, row, col, (200, 50, 50))
+                gerador = flood_fill_bfs(grid, row, col, (200, 50, 50))
         
         screen.fill(BACKGROUND_COLOR)
+        if gerador:
+            try:
+                next(gerador)
+            except StopIteration:
+                gerador = None
+                pass
         renderer.draw_grid(grid)
         pygame.display.flip()
 
