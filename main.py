@@ -32,15 +32,17 @@ def main() -> None:
     running = True
     gerador = None
     while running:
-        for event in pygame.event.get():
+        ev = pygame.event.get()
+        for event in ev:
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                x, y = pygame.mouse.get_pos()
-                row = (y - MOUSE_OFFSET_Y ) // CELL_SIZE
-                col = (x - MOUSE_OFFSET_X) // CELL_SIZE
-                print(f"Mouse clicked on the cell ({row, col})")
-                gerador = flood_fill_bfs(grid, row, col, (200, 50, 50))
+                if event.button == 1:
+                    x, y = pygame.mouse.get_pos()
+                    row = (y - MOUSE_OFFSET_Y ) // CELL_SIZE
+                    col = (x - MOUSE_OFFSET_X) // CELL_SIZE
+                    print(f"Mouse clicked on the cell ({row, col})")
+                    gerador = flood_fill_bfs(grid, row, col, (200, 50, 50))
         
         screen.fill(BACKGROUND_COLOR)
         if gerador:
