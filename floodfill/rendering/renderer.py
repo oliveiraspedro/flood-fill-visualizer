@@ -15,9 +15,10 @@ CELL_BORDER_WIDTH: int = 1
 
 
 class Renderer:
-    def __init__(self, surface: pygame.Surface, cell_size: int) -> None:
+    def __init__(self, surface: pygame.Surface, cell_width_size: int, cell_height_size: int) -> None:
         self.surface = surface
-        self.cell_size = cell_size
+        self.cell_width_size = cell_width_size
+        self.cell_height_size = cell_height_size
 
     def draw_grid(self, grid: Grid) -> None:
         """Desenha todas as células do grid na surface."""
@@ -27,14 +28,14 @@ class Renderer:
 
     def _draw_cell(self, row: int, col: int, color: Color) -> None:
         """Desenha uma única célula na posição (row, col) com a cor dada."""
-        pixel_x = col * self.cell_size
-        pixel_y = row * self.cell_size
+        pixel_x = col * self.cell_width_size
+        pixel_y = row * self.cell_height_size
 
         cell_rect = pygame.Rect(
             pixel_x,
             pixel_y,
-            self.cell_size,
-            self.cell_size,
+            self.cell_width_size,
+            self.cell_height_size,
         )
 
         pygame.draw.rect(self.surface, color, cell_rect)

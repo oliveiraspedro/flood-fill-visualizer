@@ -9,14 +9,15 @@ WINDOW_TITLE = "Flood Fill Visualizer"
 BACKGROUND_COLOR = (30, 30, 30)
 TARGET_FPS = 60
 
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
+
 GRID_ROWS = 20
 GRID_COLS = 20
-CELL_SIZE = 30
+CELL_WIDTH_SIZE = ((2 * WINDOW_WIDTH) / 3) / GRID_COLS
+CELL_HEIGHT_SIZE = WINDOW_HEIGHT / GRID_ROWS
 MOUSE_OFFSET_X = 0
 MOUSE_OFFSET_Y = 0
-
-WINDOW_WIDTH = GRID_COLS* CELL_SIZE
-WINDOW_HEIGHT = GRID_ROWS * CELL_SIZE
 
 def main() -> None:
     pygame.init()
@@ -27,33 +28,33 @@ def main() -> None:
     clock = pygame.time.Clock()
     
     grid = Grid(rows=GRID_ROWS, cols=GRID_COLS)
-    renderer = Renderer(surface=screen, cell_size=CELL_SIZE)
+    renderer = Renderer(surface=screen, cell_width_size=CELL_WIDTH_SIZE, cell_height_size=CELL_HEIGHT_SIZE)
 
     running = True
     gerador = None
     while running:
         ev = pygame.event.get()
-        holding_button = pygame.mouse.get_pressed()
+        x, y = pygame.mouse.get_pos()
         for event in ev:
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    x, y = pygame.mouse.get_pos()
-                    row = (y - MOUSE_OFFSET_Y ) // CELL_SIZE
-                    col = (x - MOUSE_OFFSET_X) // CELL_SIZE
+                row = int(y // CELL_HEIGHT_SIZE)
+                col = int(x // CELL_WIDTH_SIZE)
+                if event.button == 1 and row >= 0 and row < GRID_ROWS and col >= 0 and col < GRID_COLS:
                     print("Starting the algorithm...")
                     print(f"Mouse clicked on the cell ({row, col})")
                     gerador = flood_fill_bfs(grid, row, col, (200, 50, 50))
 
-            if holding_button[2]:
-                print("Drawing on the cell...")
-                x, y = pygame.mouse.get_pos()
-                row = (y - MOUSE_OFFSET_Y ) // CELL_SIZE
-                col = (x - MOUSE_OFFSET_X) // CELL_SIZE
-                print(f"Mouse clicked on the cell ({row, col})")
-                grid.set_color(row, col, (0, 0, 0))
-        
+            if pygame.mouse.get_pressed()[2]:
+                if row >= 0 and row < GRID_ROWS and col >= 0 and col < GRID_COLS:
+                    row = int(y // CELL_HEIGHT_SIZE)
+                    col = int(x  // CELL_WIDTH_SIZE)
+                    print("Drawing on the cell...")
+
+                    print(f"Mouse clicked on the cell ({row, col})")
+                    grid.set_color(row, col, (0, 0, 0))
+            
         screen.fill(BACKGROUND_COLOR)
         if gerador:
             try:
