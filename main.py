@@ -14,8 +14,8 @@ WINDOW_HEIGHT = 720
 
 GRID_ROWS = 20
 GRID_COLS = 20
-CELL_WIDTH_SIZE = ((2 * WINDOW_WIDTH) / 3) / GRID_COLS
-CELL_HEIGHT_SIZE = WINDOW_HEIGHT / GRID_ROWS
+CELL_WIDTH_SIZE = int(((2 * WINDOW_WIDTH) / 3) / GRID_COLS)
+CELL_HEIGHT_SIZE = int(WINDOW_HEIGHT / GRID_ROWS)
 MOUSE_OFFSET_X = 0
 MOUSE_OFFSET_Y = 0
 
@@ -47,11 +47,10 @@ def main() -> None:
                     gerador = flood_fill_bfs(grid, row, col, (200, 50, 50))
 
             if pygame.mouse.get_pressed()[2]:
+                row = int(y // CELL_HEIGHT_SIZE)
+                col = int(x  // CELL_WIDTH_SIZE)
                 if row >= 0 and row < GRID_ROWS and col >= 0 and col < GRID_COLS:
-                    row = int(y // CELL_HEIGHT_SIZE)
-                    col = int(x  // CELL_WIDTH_SIZE)
                     print("Drawing on the cell...")
-
                     print(f"Mouse clicked on the cell ({row, col})")
                     grid.set_color(row, col, (0, 0, 0))
             
