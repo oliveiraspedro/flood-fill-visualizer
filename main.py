@@ -4,6 +4,7 @@ import pygame
 from floodfill.core.grid import Grid
 from floodfill.core.flood_fill import flood_fill_bfs
 from floodfill.rendering.renderer import Renderer
+from floodfill.rendering.panel import Panel
 
 WINDOW_TITLE = "Flood Fill Visualizer"
 BACKGROUND_COLOR = (30, 30, 30)
@@ -29,6 +30,7 @@ def main() -> None:
     
     grid = Grid(rows=GRID_ROWS, cols=GRID_COLS)
     renderer = Renderer(surface=screen, cell_width_size=CELL_WIDTH_SIZE, cell_height_size=CELL_HEIGHT_SIZE)
+    panel = Panel(surface=screen)
 
     running = True
     gerador = None
@@ -62,6 +64,7 @@ def main() -> None:
                 gerador = None
                 pass
         renderer.draw_grid(grid)
+        panel.draw()
         pygame.display.flip()
 
         clock.tick(TARGET_FPS)
