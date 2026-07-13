@@ -30,7 +30,7 @@ def main() -> None:
     
     grid = Grid(rows=GRID_ROWS, cols=GRID_COLS)
     renderer = Renderer(surface=screen, cell_width_size=CELL_WIDTH_SIZE, cell_height_size=CELL_HEIGHT_SIZE)
-    panel = Panel(surface=screen)
+    panel = Panel(surface=screen, window_width=WINDOW_WIDTH, window_height=WINDOW_HEIGHT)
 
     running = True
     gerador = None
@@ -41,12 +41,13 @@ def main() -> None:
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
+                panel.handle_color_selection(x, y)
                 row = int(y // CELL_HEIGHT_SIZE)
                 col = int(x // CELL_WIDTH_SIZE)
                 if event.button == 1 and row >= 0 and row < GRID_ROWS and col >= 0 and col < GRID_COLS:
                     print("Starting the algorithm...")
                     print(f"Mouse clicked on the cell ({row, col})")
-                    gerador = flood_fill_bfs(grid, row, col, (200, 50, 50))
+                    gerador = flood_fill_bfs(grid, row, col, panel.get_selected_color())
 
             if pygame.mouse.get_pressed()[2]:
                 row = int(y // CELL_HEIGHT_SIZE)
@@ -55,6 +56,7 @@ def main() -> None:
                     print("Drawing on the cell...")
                     print(f"Mouse clicked on the cell ({row, col})")
                     grid.set_color(row, col, (0, 0, 0))
+
             
         screen.fill(BACKGROUND_COLOR)
         if gerador:
