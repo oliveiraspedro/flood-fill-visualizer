@@ -1,6 +1,7 @@
 
 import pygame
 from floodfill.rendering.components.button import Button
+from floodfill.rendering.components.slidier import Slider
 
 COLOR_RED = (255, 0, 0)
 COLOR_BLUE = (0, 0, 255)
@@ -25,10 +26,13 @@ class Panel:
         self.blue_button = Button(colored_button_x + 2*colored_button_size, colored_button_y, colored_button_size, colored_button_size, COLOR_BLUE)
         self.selected_color = COLOR_RED
 
+        self.slider = Slider(colored_button_x, colored_button_y+50, 100, 30, 0.5, 0.5, 1)
+
     def draw(self):
         self.red_button.draw(self.surface)
         self.yellow_button.draw(self.surface)
         self.blue_button.draw(self.surface)
+        self.slider.draw(self.surface)
 
     def get_selected_color(self):
         return self.selected_color 
@@ -42,7 +46,8 @@ class Panel:
             self.selected_color = COLOR_BLUE
 
     def handle_slider(self, x, y):
-        pass
+        if self.slider.container_rect.collidepoint(x, y):
+            self.slider.move_slider(x, y)
 
     def get_speed(self):
-        pass
+        print(f"{self.slider.get_value():.1f}")

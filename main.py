@@ -37,6 +37,7 @@ def main() -> None:
     while running:
         ev = pygame.event.get()
         x, y = pygame.mouse.get_pos()
+        panel.get_speed()
         for event in ev:
             if event.type == pygame.QUIT:
                 running = False
@@ -48,6 +49,9 @@ def main() -> None:
                     print("Starting the algorithm...")
                     print(f"Mouse clicked on the cell ({row, col})")
                     gerador = flood_fill_bfs(grid, row, col, panel.get_selected_color())
+
+            if pygame.mouse.get_pressed()[0]:
+                panel.handle_slider(x, y)
 
             if pygame.mouse.get_pressed()[2]:
                 row = int(y // CELL_HEIGHT_SIZE)
