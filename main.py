@@ -20,7 +20,7 @@ CELL_HEIGHT_SIZE = int(WINDOW_HEIGHT / GRID_ROWS)
 MOUSE_OFFSET_X = 0
 MOUSE_OFFSET_Y = 0
 
-def main() -> None:
+def main() -> None: 
     pygame.init()
 
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
